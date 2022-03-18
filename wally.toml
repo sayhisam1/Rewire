@@ -1,0 +1,8 @@
+[package]
+authors = ["sayhisam1 <sayhisam1@gmail.com>"]
+description = "An open-sourced library for Hot Reloading code in Roblox"
+license = "MIT"
+name = "sayhisam1/Rewire"
+realm = "shared"
+registry = "https://github.com/upliftgames/wally-index"
+version = "0.1.0"

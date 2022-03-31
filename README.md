@@ -3,7 +3,7 @@ Rewire is a Roblox library that makes adding HotReload functionality easy.
 **What's Hot Reloading?**
 Hot Reloading means changing the behavior of your game immediately when some code is edited. This means you can write code *while your game is running in studio play mode* and see updates happen in realtime, without having to stop and start the running session. 
 
-Here is an example of HotReloading in action:
+Here is an example of HotReloading used to edit Roact UI while the game is running:
 https://user-images.githubusercontent.com/6133296/161100007-9e6616f1-01ca-4d1d-9812-270fbc238433.mp4
 
 

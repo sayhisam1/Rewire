@@ -18,13 +18,14 @@ local reloader = Rewire.HotReloader.new()
 
 local requiredModule = nil
 
-reloader:listen(WHICHEVER_MODULE, function(module:ModuleScript)
+reloader:listen(WHICHEVER_MODULE, 
+function(module:ModuleScript)
    -- callback invoked immediately upon listening, and whenever the module in question updates
    -- this could include requiring the module and changing a global reference
    requiredModule = require(module)
 end,
 function(module:ModuleScript)
-   -- do whatever needs to be done on cleanup
+   -- here you put cleanup code that needs to happen before the next invocation of the callback
    -- this could be destroying objects that need to be destroyed, or unmounting a Roact handle
 end)
 ```

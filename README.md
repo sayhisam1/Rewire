@@ -25,6 +25,6 @@ reloader:listen(WHICHEVER_MODULE, function(module:ModuleScript)
 end,
 function(module:ModuleScript)
    -- do whatever needs to be done on cleanup
-   -- this could be destroying objects that need to be destroyed
+   -- this could be destroying objects that need to be destroyed, or unmounting a Roact handle
 end)
 ```

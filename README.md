@@ -28,6 +28,8 @@ function(module:ModuleScript)
    -- here you put cleanup code that needs to happen before the next invocation of the callback
    -- this could be destroying objects that need to be destroyed, or unmounting a Roact handle
 end)
+
+-- since the HotReloader doesn't yield on first invocation, requiredModule is guaranteed to be non-nil by this point
 ```
 
 Rewire currently only listens to updates in Studio - on live servers, it just fires the callback once and returns.

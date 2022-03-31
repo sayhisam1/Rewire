@@ -28,3 +28,5 @@ function(module:ModuleScript)
    -- this could be destroying objects that need to be destroyed, or unmounting a Roact handle
 end)
 ```
+
+Rewire currently only listens to updates in Studio - on live servers, it just fires the callback once and returns.

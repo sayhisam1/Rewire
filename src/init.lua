@@ -1,3 +1,3 @@
 return {
-	HotReloader = require(script.Parent.HotReloader),
+	HotReloader = require(script.HotReloader),
 }

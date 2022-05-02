@@ -1,3 +1,4 @@
+--!strict
 local RunService = game:GetService("RunService")
 
 local HotReloader = {}
@@ -12,14 +13,14 @@ function HotReloader.new()
 end
 
 function HotReloader:destroy()
-	for _, listener: RBXScriptSignal in pairs(self._listeners) do
+	for _, listener: RBXScriptConnection in pairs(self._listeners) do
 		listener:Disconnect()
 	end
-	self._listeners = nil
+	self._listeners = {}
 	for _, cloned in pairs(self._clonedModules) do
 		cloned:Destroy()
 	end
-	self._clonedModules = nil
+	self._clonedModules = {}
 end
 
 function HotReloader:listen(module: ModuleScript, callback: (ModuleScript) -> nil, cleanup: (ModuleScript) -> nil)

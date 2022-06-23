@@ -1,4 +1,5 @@
 --!strict
+local CollectionService = game:GetService("CollectionService")
 local RunService = game:GetService("RunService")
 
 local HotReloader = {}
@@ -33,7 +34,14 @@ function HotReloader:listen(module: ModuleScript, callback: (ModuleScript) -> ni
 				cleanup(module)
 			end
 
+			if not game:IsAncestorOf(module) then
+				return
+			end
+
 			local cloned = module:Clone()
+
+			CollectionService:AddTag(cloned, "RewireClonedModule")
+
 			cloned.Parent = module.Parent
 			self._clonedModules[module] = cloned
 

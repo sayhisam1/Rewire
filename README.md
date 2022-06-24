@@ -43,7 +43,7 @@ Rewire [listens to changes on ModuleScripts](src/HotReloader.lua) to decide when
 For convenience, Rewire tags all created clones [with a CollectionService tag](src/Constants.lua). This tag can be accessed as follows:
 
 ```lua
-Rewire.CollectionService
+Rewire.CollectionServiceTag
 ```
 
 You can use this tag in upstream code to ignore Rewire created modules (e.g. in `ChildAdded` or `ChildRemoved` events)

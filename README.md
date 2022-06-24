@@ -38,6 +38,7 @@ end)
 Rewire currently only listens to updates in Studio - on live servers, it just fires the callback once and returns.
 
 **How does this even work?**
+
 Rewire [listens to changes on ModuleScripts](src/HotReloader.lua) to decide when to reload. Rewire then creates a clone of the ModuleScript in question - this is needed since Roblox currently caches ModuleScript sources while the game is running, so if we didn't clone then `require` wouldn't return the results of the changed code.
 For convenience, Rewire tags all created clones [with a CollectionService tag](src/Constants.lua). This tag can be accessed as follows:
 

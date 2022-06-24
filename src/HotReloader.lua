@@ -1,6 +1,7 @@
 --!strict
 local CollectionService = game:GetService("CollectionService")
 local RunService = game:GetService("RunService")
+local Constants = require(script.Parent.Constants)
 
 local HotReloader = {}
 HotReloader.__index = HotReloader
@@ -40,7 +41,7 @@ function HotReloader:listen(module: ModuleScript, callback: (ModuleScript) -> ni
 
 			local cloned = module:Clone()
 
-			CollectionService:AddTag(cloned, "RewireClonedModule")
+			CollectionService:AddTag(cloned, Constants.CollectionServiceTag)
 
 			cloned.Parent = module.Parent
 			self._clonedModules[module] = cloned

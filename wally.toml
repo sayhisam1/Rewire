@@ -2,7 +2,7 @@
 authors = ["sayhisam1 <sayhisam1@gmail.com>"]
 description = "An open-sourced library for Hot Reloading code in Roblox"
 license = "MIT"
-name = "sayhisam1/Rewire"
+name = "sayhisam1/rewire"
 realm = "shared"
 registry = "https://github.com/upliftgames/wally-index"
 version = "0.2.0"

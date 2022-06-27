@@ -60,8 +60,8 @@ end
 	Both are passed a [Context] object, which contains information about the original module
 	and whether or not the script is reloading.
 
-	- For `callback`, `Context.isReloading` is true if this is not the first time the callback is being run.
-	- For `cleanup`, `Context.isReloading` is true if the module has been removed (this is the last cleanup).
+	- For `callback`, `Context.isReloading` is true if running as a result of a hot-reload (false indicates first run).
+	- For `cleanup`, `Context.isReloading` is true if the module is about to be hot-reloaded (false indicates this is the last cleanup).
 
 	@param module -- The original module to attach listeners to
 	@param callback -- A callback that runs when the ModuleScript is added or changed

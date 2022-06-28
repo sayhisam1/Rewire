@@ -1,4 +1,6 @@
+local Constants = require(script.Constants)
+
 return {
 	HotReloader = require(script.HotReloader),
-	CollectionServiceTag = "RewireClonedModule"
+	CollectionServiceTag = Constants.CollectionServiceTag,
 }

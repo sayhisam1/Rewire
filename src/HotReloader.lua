@@ -139,7 +139,7 @@ function HotReloader:scan(
 	end
 
 	local descendantAdded = container.DescendantAdded:Connect(function(instance)
-		if instance:IsA("ModuleScript") and not CollectionService:HasTag(instance, "RewireClonedModule") then
+		if instance:IsA("ModuleScript") and not CollectionService:HasTag(instance, Constants.CollectionServiceTag) then
 			add(instance)
 		end
 	end)

@@ -68,50 +68,54 @@ end
 	@param cleanup -- A callback that runs when the ModuleScript is changed or removed
 ]=]
 function HotReloader:listen(
-	module: ModuleScript,
+	_module: ModuleScript | { ModuleScript },
 	callback: (ModuleScript, Context) -> (),
 	cleanup: (ModuleScript, Context) -> ()
 )
-	if RunService:IsStudio() then
-		local moduleChanged = module.Changed:Connect(function()
-			local originalStillExists = game:IsAncestorOf(module)
+	local scripts = if type(_module) ~= "table" then { _module } else _module
 
-			local cleanupContext = {
-				isReloading = originalStillExists,
-				originalModule = module,
-			}
+	for _, module in ipairs(scripts) do
+		if RunService:IsStudio() then
+			local moduleChanged = module.Changed:Connect(function()
+				local originalStillExists = game:IsAncestorOf(module)
 
-			if self._clonedModules[module] then
-				cleanup(self._clonedModules[module], cleanupContext)
-				self._clonedModules[module]:Destroy()
-			else
-				cleanup(module, cleanupContext)
-			end
+				local cleanupContext = {
+					isReloading = originalStillExists,
+					originalModule = module,
+				}
 
-			if not originalStillExists then
-				return
-			end
+				if self._clonedModules[module] then
+					cleanup(self._clonedModules[module], cleanupContext)
+					self._clonedModules[module]:Destroy()
+				else
+					cleanup(module, cleanupContext)
+				end
 
-			local cloned = module:Clone()
+				if not originalStillExists then
+					return
+				end
 
-			CollectionService:AddTag(cloned, Constants.CollectionServiceTag)
+				local cloned = module:Clone()
 
-			cloned.Parent = module.Parent
-			self._clonedModules[module] = cloned
+				CollectionService:AddTag(cloned, Constants.CollectionServiceTag)
 
-			callback(cloned, {
-				originalModule = module,
-				isReloading = true,
-			})
-			warn(("HotReloaded %s!"):format(module:GetFullName()))
-		end)
-		table.insert(self._listeners, moduleChanged)
+				cloned.Parent = module.Parent
+				self._clonedModules[module] = cloned
+
+				callback(cloned, {
+					originalModule = module,
+					isReloading = true,
+				})
+				warn(("HotReloaded %s!"):format(module:GetFullName()))
+			end)
+			table.insert(self._listeners, moduleChanged)
+		end
+
+		callback(module, {
+			originalModule = module,
+			isReloading = false,
+		})
 	end
-
-	callback(module, {
-		originalModule = module,
-		isReloading = false,
-	})
 end
 
 --[=[
@@ -124,7 +128,7 @@ end
 	@param cleanup -- A callback that runs when the ModuleScript is changed or removed
 ]=]
 function HotReloader:scan(
-	container: Instance,
+	_containers: Instance | { Instance },
 	callback: (ModuleScript, Context) -> (),
 	cleanup: (ModuleScript, Context) -> ()
 )
@@ -132,19 +136,25 @@ function HotReloader:scan(
 		self:listen(module, callback, cleanup)
 	end
 
-	for _, instance in container:GetDescendants() do
-		if instance:IsA("ModuleScript") then
-			add(instance)
+	local containers = if type(_containers) ~= "table" then { _containers } else _containers
+
+	for _, container in ipairs(containers) do
+		for _, instance in container:GetDescendants() do
+			if instance:IsA("ModuleScript") then
+				add(instance)
+			end
 		end
+
+		local descendantAdded = container.DescendantAdded:Connect(function(instance)
+			if
+				instance:IsA("ModuleScript") and not CollectionService:HasTag(instance, Constants.CollectionServiceTag)
+			then
+				add(instance)
+			end
+		end)
+
+		table.insert(self._listeners, descendantAdded)
 	end
-
-	local descendantAdded = container.DescendantAdded:Connect(function(instance)
-		if instance:IsA("ModuleScript") and not CollectionService:HasTag(instance, Constants.CollectionServiceTag) then
-			add(instance)
-		end
-	end)
-
-	table.insert(self._listeners, descendantAdded)
 end
 
 return HotReloader
